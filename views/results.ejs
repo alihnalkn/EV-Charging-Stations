@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results for <%= city %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Charging Stations in <%= city %></h1>
+    <div class="results">
+        <% chargers.forEach(charger => { %>
+          <div class="card fade-in">
+            <h3><%= charger.AddressInfo.Title %></h3>
+            <p><%= charger.AddressInfo.AddressLine1 %>, <%= charger.AddressInfo.Town %></p>
+            <p><strong>Distance:</strong> <%= parseFloat(charger.AddressInfo.Distance).toFixed(1) %> km</p>
+            <% if (charger.Connections && charger.Connections.length > 0) { %>
+              <p><strong>Power:</strong> <%= charger.Connections[0].PowerKW || 'Unknown' %> kW</p>
+              <p><strong>Input Type:</strong> <%= charger.Connections[0].CurrentType?.Title || 'Unknown' %></p>
+            <% } else { %>
+              <p><strong>Power:</strong> Not available</p>
+              <p><strong>Input Type:</strong> Not available</p>
+            <% } %>
+            <a href="https://www.google.com/maps?q=<%= charger.AddressInfo.Latitude %>,<%= charger.AddressInfo.Longitude %>" target="_blank">
+              View on Map
+            </a>
+          </div>
+        <% }) %>
+      </div>
+   <a href="/">Search again</a>
+</body>
+</html>
